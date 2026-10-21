@@ -81,6 +81,8 @@ The first valid decision wins. Duplicates, late replies, and replies from someon
 
 ## Demo script
 
+To present the demo, follow [RUNBOOK.md](RUNBOOK.md): the walkthrough beat by beat, and where in the code each part happens.
+
 **30-second version:** "This is an expense approval. It waits for a manager, escalates if they're slow, and pays out through a flaky payment provider. I'm going to kill the worker in the middle, and nothing will be lost."
 
 | Beat | Do | Point out |
