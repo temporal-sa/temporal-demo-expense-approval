@@ -117,7 +117,8 @@ make web        # terminal 3: the app at http://localhost:8080
 | `TEMPORAL_ADDRESS`, `TEMPORAL_NAMESPACE`, `TEMPORAL_API_KEY`, `TEMPORAL_TLS*` | `localhost:7233`, `default` | both |
 | `TEMPORAL_TASK_QUEUE` | `expense-approval` | both |
 | `ESCALATE_AFTER` / `EXPIRE_AFTER` | `45s` / `10m` | web, passed into each Workflow |
-| `TEMPORAL_UI_URL` | Temporal Cloud, or `http://localhost:8233`, for the namespace | web |
+| `TEMPORAL_UI_URL` | The namespace's Temporal UI page; with `TEMPORAL_UI_NAMESPACE` set, the UI base (`https://cloud.temporal.io`, or a workspace's `/_temporal`) | web |
+| `TEMPORAL_UI_NAMESPACE` | Namespace appended to `TEMPORAL_UI_URL` as `/namespaces/<ns>` (set by the demo platform) | web |
 | `PORT` | `8080` | web |
 
 The Temporal CLI's config file is ignored on purpose, so a developer's default profile can't point the demo at a real namespace.

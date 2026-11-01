@@ -4,6 +4,7 @@ package main
 
 import (
 	"net/http"
+	"net/url"
 	"os"
 	"strings"
 	"time"
@@ -54,12 +55,20 @@ func main() {
 	}
 }
 
-// temporalUIURL is the namespace's page in the Temporal UI. TEMPORAL_UI_URL
-// wins; otherwise a TLS or API-key connection is taken to be Temporal Cloud,
-// and anything else the local dev server.
+// temporalUIURL is the namespace's page in the Temporal UI.
+//
+// When TEMPORAL_UI_NAMESPACE is set (the demo platform sets both), TEMPORAL_UI_URL
+// is the UI base (https://cloud.temporal.io, or a workspace's /_temporal) and the
+// page is <base>/namespaces/<TEMPORAL_UI_NAMESPACE>. Otherwise TEMPORAL_UI_URL,
+// if set, is already the namespace's page. Without it, a TLS or API-key
+// connection is taken to be Temporal Cloud, and anything else the local dev server.
 func temporalUIURL(opts client.Options) string {
-	if v := config.Env("TEMPORAL_UI_URL", ""); v != "" {
-		return strings.TrimSuffix(v, "/")
+	base := strings.TrimSuffix(config.Env("TEMPORAL_UI_URL", ""), "/")
+	if ns := config.Env("TEMPORAL_UI_NAMESPACE", ""); ns != "" && base != "" {
+		return base + "/namespaces/" + url.PathEscape(ns)
+	}
+	if base != "" {
+		return base
 	}
 	if opts.Credentials != nil || opts.ConnectionOptions.TLS != nil {
 		return "https://cloud.temporal.io/namespaces/" + opts.Namespace
